@@ -3,8 +3,8 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
-const skills = ['Python', 'Machine Learning', 'JavaScript', 'React', 'SQL', 'C++', 'Git', 'Unity', 'Blender', 'Java'];
-
+const skills = ['Python', 'Machine Learning', 'JavaScript', ];
+// 'React', 'SQL', 'C++', 'Git', 'Unity', 'Blender', 'Java'
 export default function AboutContent() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-45% 0px' });
@@ -17,10 +17,10 @@ export default function AboutContent() {
       transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
       className="text-white"
     >
-      <h2 className="text-400x400 uppercase tracking-[0.3em] text-lg text-purple-300 mb-40">
-        ABOUT ME
+      <h2 className="text-lg uppercase tracking-[0.3em] text-purple-300 mb-4">
+        About Me
       </h2>
-      <h3 className="text-4xl md:text-5xl mb-6">
+      <h3 className="text-4xl md:text-5xl font-bold mb-6">
         Hello, I'm Malak
       </h3>
       <p className="text-purple-100/80 leading-relaxed text-lg mb-10 max-w-md">

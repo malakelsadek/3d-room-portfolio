@@ -33,8 +33,8 @@ export default function WorksContent() {
       transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
       className="text-white"
     >
-      <h2 className="text-sm uppercase tracking-[0.3em] text-purple-300 mb-4">
-        02 — My Works
+      <h2 className="text-lg uppercase tracking-[0.3em] text-purple-300 mb-4">
+        My Works
       </h2>
       <h3 className="text-4xl md:text-5xl font-bold mb-10">
         Things I've Built

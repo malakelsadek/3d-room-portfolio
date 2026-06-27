@@ -34,19 +34,19 @@ export default function ScrollingPortfolio() {
     const scale = useTransform(
     smoothProgress,
     [0, 0.10, 0.2, 0.30, 0.4, 0.6, 0.65, 0.85, 0.9, 1],
-    [1.2, 1.2, 2, 2, 2, 2, 2, 2, 1.2, 1.2]
+    [1.2, 1.2, 2, 2, 2, 2, 2, 2, 2, 1.2]
     );
 
     const x = useTransform(
     smoothProgress,
     [0, 0.10, 0.2, 0.30, 0.4, 0.6, 0.65, 0.85, 0.9, 1],
-    ['0%', '0%', '35%', '35%', '-35%', '-35%', '15%', '15%', '0%', '0%']
+    ['0%', '0%', '35%', '35%', '-35%', '-35%', '15%', '15%', '15%', '0%']
     );
 
     const y = useTransform(
     smoothProgress,
     [0, 0.10, 0.2, 0.30, 0.4, 0.6, 0.65, 0.85, 0.9, 1],
-    ['0%', '0%', '-5%', '-5%', '-3%', '-3%', '-35%', '-35%', '0%', '0%']
+    ['0%', '0%', '-5%', '-5%', '-3%', '-3%', '-35%', '-35%', '-35%', '0%']
     );
 
     const brightness = useTransform(
@@ -84,24 +84,24 @@ export default function ScrollingPortfolio() {
             </section>
 
             {/* ABOUT — Text pinned to FAR LEFT like Hero's "Welcome" */}
-            <section className="h-[150vh] relative pointer-events-none">
+            <section className="h-[120vh] relative pointer-events-none">
             {/* Remove the max-w-7xl container — use absolute positioning instead */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-1/2 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
+                    <div className="absolute top-1/3 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
                         <AboutContent />
                     </div>
                 </div>
             </section>
 
             {/* WORKS — Text FAR RIGHT */}
-            <section className="h-[300vh] relative pointer-events-none">
-                <div className="absolute top-1/2 right-8 md:right-20 -translate-y-1/2 pointer-events-auto">
+            <section className="h-[120vh] relative pointer-events-none">
+                <div className="absolute top-1/3 right-8 md:right-20 -translate-y-1/2 pointer-events-auto">
                     <WorksContent />
                 </div>
             </section>
 
             {/* CONTACT — Text FAR LEFT */}
-            <section className="h-[300vh] relative pointer-events-none">
+            <section className="h-[120vh] relative pointer-events-none">
                 <div className="absolute top-1/2 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
                     <ContactContent />
                 </div>
