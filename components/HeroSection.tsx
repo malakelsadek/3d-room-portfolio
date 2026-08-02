@@ -22,10 +22,10 @@ export default function HeroSection() {
         {/* Bottom Left Title (Japanese Style Accent) */}
         <div className="self-end justify-self-start pointer-events-auto">
             <h2 className="text-4xl md:text-6xl font-bold tracking-wide mb-2">
-            Welcome
+            Welcome,
             </h2>
-            <p className="text-white/70 text-sm md:text-base font-light tracking-wider">
-            To my room.
+            <p className="text-white/70 text-base md:text-xl font-light tracking-wider">
+            To my room
             </p>
         </div>
 

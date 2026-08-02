@@ -22,19 +22,34 @@ export default function ContactContent() {
         Let's Talk
       </h3>
       <p className="text-purple-100/90 leading-relaxed mb-8 max-w-md">
-        [Your invitation message — keep it warm and open. Mention what kind of 
-        opportunities you're looking for.]
+        I'm always happy to connect — whether that's an internship, a freelance
+        project, or just a conversation about data, code, or your latest build.
+        Send me a message and let's talk.
       </p>
 
       <div className="flex flex-col gap-4">
         {[
-          { icon: '✉', label: 'your@email.com', href: 'mailto:your@email.com' },
-          { icon: '→', label: 'GitHub', href: '#' },
-          { icon: '→', label: 'LinkedIn', href: '#' },
+          {
+            icon: '✉',
+            label: 'elsadek.malak@gmail.com',
+            href: 'mailto:elsadek.malak@gmail.com',
+          },
+          {
+            icon: '→',
+            label: 'GitHub',
+            href: 'https://github.com/malakelsadek',
+          },
+          {
+            icon: '→',
+            label: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/malakelsadek/',
+          },
         ].map((link) => (
           <a
             key={link.label}
             href={link.href}
+            target={link.href.startsWith('http') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
             className="flex items-center gap-3 text-purple-200 hover:text-white transition-colors group"
           >
             <span className="text-lg">{link.icon}</span>

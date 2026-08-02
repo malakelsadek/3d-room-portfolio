@@ -3,8 +3,19 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
-const skills = ['Python', 'Machine Learning', 'JavaScript', ];
-// 'React', 'SQL', 'C++', 'Git', 'Unity', 'Blender', 'Java'
+const skills = [
+  'Python',
+  'Machine Learning',
+  'JavaScript',
+  'TypeScript',
+  'Java',
+  'C++',
+  'SQL',
+  'React',
+  'Git',
+  'Unity',
+  'Blender',
+];
 export default function AboutContent() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-45% 0px' });
@@ -24,13 +35,13 @@ export default function AboutContent() {
         Hello, I'm Malak
       </h3>
       <p className="text-purple-100/80 leading-relaxed text-lg mb-10 max-w-md">
-        I'm a Computer Science student specializing in Data Science, with a passion for 
-        turning complex data and code into seamless interactive experiences. 
-        From building predictive moddels to programming mechanics for 3D games, 
+        I'm a 19-year-old Computer Science student specializing in Data Science, with a passion for
+        turning complex data and code into seamless interactive experiences.
+        From building predictive models to programming mechanics for 3D games,
         I love exploring the intersection of logic, data, and human interaction.
       </p>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 max-w-md">
         {skills.map((skill) => (
           <span
             key={skill}

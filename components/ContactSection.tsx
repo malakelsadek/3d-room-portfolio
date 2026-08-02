@@ -9,17 +9,19 @@ export default function ContactSection() {
             Let's Talk
         </h3>
         <p className="text-purple-100 leading-relaxed mb-8">
-            [Placeholder — short message inviting people to reach out]
+            I'm always happy to connect, whether that's an internship, a freelance
+            project, or just a conversation about data, code, or your latest build.
+            Send me a message and let's talk.
         </p>
 
         <div className="flex flex-col gap-3">
-            <a href="mailto:your@email.com" className="text-purple-200 hover:text-white transition-colors">
-            ✉ your@email.com
+            <a href="mailto:elsadek.malak@gmail.com" className="text-purple-200 hover:text-white transition-colors">
+            ✉ elsadek.malak@gmail.com
             </a>
-            <a href="#" className="text-purple-200 hover:text-white transition-colors">
+            <a href="https://github.com/malakelsadek" target="_blank" rel="noopener noreferrer" className="text-purple-200 hover:text-white transition-colors">
             → GitHub
             </a>
-            <a href="#" className="text-purple-200 hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/in/malakelsadek/" target="_blank" rel="noopener noreferrer" className="text-purple-200 hover:text-white transition-colors">
             → LinkedIn
             </a>
         </div>

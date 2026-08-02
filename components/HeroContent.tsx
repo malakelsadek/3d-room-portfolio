@@ -8,24 +8,24 @@ export default function HeroContent() {
       
       {/* Bottom Left: Welcome */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.3 }}
+        transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         className="absolute bottom-20 left-8 md:left-20 pointer-events-auto"
       >
         <h2 className="text-4xl md:text-6xl font-bold tracking-wide mb-2">
-          Welcome
+          Welcome,
         </h2>
-        <p className="text-white/70 text-sm md:text-base font-light tracking-wider">
-          To my room.
+        <p className="text-white/70 text-base md:text-xl font-light tracking-wider">
+          To my virtual bedroom
         </p>
       </motion.div>
 
       {/* Mid Right: Portfolio Title */}
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
+        initial={{ opacity: 0, x: 24 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.6 }}
+        transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         className="absolute top-1/2 right-8 md:right-20 -translate-y-1/2 pointer-events-auto"
       >
         <h1 className="text-4xl md:text-5xl font-light tracking-widest leading-relaxed text-slate-100 text-right">
