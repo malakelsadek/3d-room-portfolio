@@ -9,6 +9,7 @@ type Project = {
   description: string;
   tags: string[];
   repo: string;
+  hidden?: boolean;
 };
 
 const projects: Project[] = [
@@ -24,14 +25,28 @@ const projects: Project[] = [
     description: 'A short description of what this project does and the tech used.',
     tags: ['React', 'Next.js'],
     repo: '',
+    hidden: true, // empty placeholder — flip to false once there's a real project here
   },
   {
     title: 'Project Three',
     description: 'A short description of what this project does and the tech used.',
     tags: ['Data Viz', 'SQL'],
     repo: '',
+    hidden: true, // empty placeholder — flip to false once there's a real project here
   },
 ];
+
+const visibleProjects = projects.filter((project) => !project.hidden);
+
+function ProjectImagePlaceholder({ className = '' }: { className?: string }) {
+  return (
+    <div
+      className={`flex shrink-0 items-center justify-center rounded-lg border border-dashed border-purple-400/30 bg-purple-400/5 text-purple-300/50 ${className}`}
+    >
+      <span className="text-xs">Image coming soon</span>
+    </div>
+  );
+}
 
 export default function WorksContent() {
   const ref = useRef(null);
@@ -66,30 +81,33 @@ export default function WorksContent() {
       </h3>
 
       <div className="space-y-4 max-w-lg">
-        {projects.map((project, i) => (
+        {visibleProjects.map((project, i) => (
           <motion.div
             key={project.title}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4 + i * 0.15, duration: 0.5 }}
             onClick={() => setActiveProject(project)}
-            className="bg-purple-950/50 border border-purple-400/20 rounded-xl p-5 backdrop-blur-md hover:border-purple-300/50 transition-all cursor-pointer group"
+            className="flex gap-4 bg-purple-950/50 border border-purple-400/20 rounded-xl p-5 backdrop-blur-md hover:border-purple-300/50 transition-all cursor-pointer group"
           >
-            <h4 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-200 transition-colors">
-              {project.title}
-            </h4>
-            <p className="text-purple-200/80 text-sm mb-3">
-              {project.description}
-            </p>
-            <div className="flex gap-2">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-1 rounded-full bg-purple-400/10 text-purple-300"
-                >
-                  {tag}
-                </span>
-              ))}
+            <ProjectImagePlaceholder className="h-20 w-20 sm:h-24 sm:w-24" />
+            <div className="min-w-0 flex-1">
+              <h4 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-200 transition-colors">
+                {project.title}
+              </h4>
+              <p className="text-purple-200/80 text-sm mb-3">
+                {project.description}
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs px-2 py-1 rounded-full bg-purple-400/10 text-purple-300"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </motion.div>
         ))}
@@ -123,10 +141,12 @@ export default function WorksContent() {
                   <button
                     onClick={() => setActiveProject(null)}
                     aria-label="Close"
-                    className="absolute top-4 right-4 text-purple-300 hover:text-white transition-colors text-xl leading-none cursor-pointer"
+                    className="absolute top-4 right-4 z-10 rounded-full bg-purple-950/60 p-1.5 text-purple-300 hover:text-white transition-colors text-xl leading-none cursor-pointer"
                   >
                     &times;
                   </button>
+
+                  <ProjectImagePlaceholder className="mb-5 aspect-video w-full" />
 
                   <h4 className="text-2xl font-semibold text-white mb-3 pr-6">
                     {activeProject.title}

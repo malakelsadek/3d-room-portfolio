@@ -133,8 +133,10 @@ export default function ScrollingPortfolio() {
                 </div>
             </section>
 
-            {/* CONTACT — Text FAR LEFT */}
-            <section className="h-[120vh] relative pointer-events-none">
+            {/* CONTACT — Text FAR LEFT. Kept to viewport height (not 120vh like the
+                other sections) so the page's scroll range ends right as the camera
+                settles on the mailpost, instead of leaving dead space to scroll through. */}
+            <section className="h-screen relative pointer-events-none">
                 <div className="absolute top-1/2 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
                     <ContactContent />
                 </div>
