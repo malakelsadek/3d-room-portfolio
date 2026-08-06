@@ -1,29 +1,54 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
-const projects = [
+type Project = {
+  title: string;
+  description: string;
+  tags: string[];
+  repo: string;
+};
+
+const projects: Project[] = [
   {
-    title: 'Project One',
-    description: 'A short description of what this project does and the tech used.',
-    tags: ['Python', 'ML'],
+    title: 'Bank Dashboard',
+    description:
+      'A banking dashboard for tracking accounts, transactions, and spending at a glance.',
+    tags: ['React', 'TypeScript', 'Dashboard'],
+    repo: 'https://github.com/malakelsadek/bank-dashboard',
   },
   {
     title: 'Project Two',
     description: 'A short description of what this project does and the tech used.',
     tags: ['React', 'Next.js'],
+    repo: '',
   },
   {
     title: 'Project Three',
     description: 'A short description of what this project does and the tech used.',
     tags: ['Data Viz', 'SQL'],
+    repo: '',
   },
 ];
 
 export default function WorksContent() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-45% 0px' });
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (!activeProject) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveProject(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [activeProject]);
 
   return (
     <motion.div
@@ -47,6 +72,7 @@ export default function WorksContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4 + i * 0.15, duration: 0.5 }}
+            onClick={() => setActiveProject(project)}
             className="bg-purple-950/50 border border-purple-400/20 rounded-xl p-5 backdrop-blur-md hover:border-purple-300/50 transition-all cursor-pointer group"
           >
             <h4 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-200 transition-colors">
@@ -68,6 +94,76 @@ export default function WorksContent() {
           </motion.div>
         ))}
       </div>
+
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {activeProject && (
+              <motion.div
+                className="fixed inset-0 z-50 flex items-center justify-center p-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+                  onClick={() => setActiveProject(null)}
+                />
+
+                <motion.div
+                  role="dialog"
+                  aria-modal="true"
+                  initial={{ opacity: 0, scale: 0.85, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85, y: 20 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                  className="relative z-10 w-full max-w-md bg-purple-950/90 border border-purple-400/30 rounded-2xl p-8 backdrop-blur-xl shadow-2xl shadow-purple-900/50"
+                >
+                  <button
+                    onClick={() => setActiveProject(null)}
+                    aria-label="Close"
+                    className="absolute top-4 right-4 text-purple-300 hover:text-white transition-colors text-xl leading-none cursor-pointer"
+                  >
+                    &times;
+                  </button>
+
+                  <h4 className="text-2xl font-semibold text-white mb-3 pr-6">
+                    {activeProject.title}
+                  </h4>
+                  <p className="text-purple-100/90 leading-relaxed mb-5">
+                    {activeProject.description}
+                  </p>
+                  <div className="flex gap-2 flex-wrap mb-7">
+                    {activeProject.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs px-2 py-1 rounded-full bg-purple-400/10 text-purple-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {activeProject.repo && (
+                    <a
+                      href={activeProject.repo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 text-purple-100 hover:text-white rounded-full px-5 py-2.5 text-sm transition-all group"
+                    >
+                      View on GitHub
+                      <span className="group-hover:translate-x-1 transition-transform">
+                        →
+                      </span>
+                    </a>
+                  )}
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </motion.div>
   );
 }
