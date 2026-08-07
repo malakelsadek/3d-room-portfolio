@@ -1,7 +1,9 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import HeroContent from './HeroContent';
 import AboutContent from './AboutContent';
@@ -21,49 +23,78 @@ export default function ScrollingPortfolio() {
     const [sceneLoaded, setSceneLoaded] = useState(false);
     const prefersReducedMotion = useReducedMotion();
 
+    // Inertial smooth scrolling for the whole page — Lenis wraps native
+    // scroll (not a virtual/transform scroller), so Framer Motion's
+    // window-based useScroll below picks up the smoothed position for free.
+    useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const lenis = new Lenis({
+        duration: 1.1,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+        lenis.raf(time);
+        rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+        cancelAnimationFrame(rafId);
+        lenis.destroy();
+    };
+    }, [prefersReducedMotion]);
+
     const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
     });
 
-    // A lighter, slightly under-damped spring settles quickly without feeling
-    // sluggish, so the room stays glued to the scroll instead of lagging behind it.
+    // Lenis already lerps the raw scroll position, so this spring only needs
+    // to take the edge off — a heavy spring on top of Lenis's own smoothing
+    // would double the lag and make the camera feel like it's swimming.
     const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: prefersReducedMotion ? 1000 : 90,
-    damping: prefersReducedMotion ? 100 : 22,
+    stiffness: prefersReducedMotion ? 1000 : 200,
+    damping: prefersReducedMotion ? 100 : 30,
     mass: 0.5,
     restDelta: 0.001,
     });
 
   // --- CAMERA KEYFRAMES ---
-  // [0-15%] Hero: full room, no zoom
-  // [15-35%] About: zoom to piano (LEFT side of room) — held a bit longer so it
-  //           doesn't drift toward Works after just one extra scroll tick
-  // [35-60%] Works: zoom to computer desk (RIGHT side of room)
-  // [60-65%] Contact: fast pan/zoom to the mailpost, framed toward the top
-  // [65-100%] Hold on the mailpost — no zoom back out to the full room
+  // Section heights: Hero 100vh, About 120vh, Works 200vh, Contact 100vh = 520vh total.
+  // [0-13.5%] Hero: full room, no zoom — a longer dead-zone up top so scrolling
+  //            in doesn't immediately yank the camera
+  // [13.5-23%] transition into About
+  // [23-36.5%] About: hold on the piano (LEFT side of room)
+  // [36.5-46%] transition into Works
+  // [46-77%] Works: hold on the computer desk (RIGHT side of room) — a long
+  //           hold so the Works section has real room to breathe
+  // [77-83%] Contact: fast pan/zoom to the mailpost, framed toward the top
+  // [83-100%] Hold on the mailpost — no zoom back out to the full room
 
     const scale = useTransform(
     smoothProgress,
-    [0, 0.10, 0.2, 0.35, 0.45, 0.6, 0.65, 1],
+    [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1],
     [1.2, 1.2, 2, 2, 2, 2, 2.2, 2.2]
     );
 
     const x = useTransform(
     smoothProgress,
-    [0, 0.10, 0.2, 0.35, 0.45, 0.6, 0.65, 1],
+    [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1],
     ['0%', '0%', '35%', '35%', '-35%', '-35%', '15%', '15%']
     );
 
     const y = useTransform(
     smoothProgress,
-    [0, 0.10, 0.2, 0.35, 0.45, 0.6, 0.65, 1],
+    [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1],
     ['0%', '0%', '-5%', '-5%', '-3%', '-3%', '-55%', '-55%']
     );
 
     const brightness = useTransform(
     smoothProgress,
-    [0, 0.2, 0.35, 0.5, 0.65, 1],
+    [0, 0.231, 0.365, 0.462, 0.827, 1],
     [1, 1, 0.9, 0.9, 0.95, 0.95]
     );
     const filter = useTransform(brightness, (v) => `brightness(${v})`);
@@ -126,18 +157,23 @@ export default function ScrollingPortfolio() {
                 </div>
             </section>
 
-            {/* WORKS — Text FAR RIGHT */}
-            <section className="h-[120vh] relative pointer-events-none">
+            {/* WORKS — Text FAR RIGHT. Extra-tall section (200vh vs. the usual
+                120vh) so there's real breathing room before and after the
+                camera settles on the desk, instead of rushing straight through. */}
+            <section className="h-[200vh] relative pointer-events-none">
                 <div className="absolute top-1/3 right-8 md:right-20 -translate-y-1/2 pointer-events-auto">
                     <WorksContent />
                 </div>
             </section>
 
-            {/* CONTACT — Text FAR LEFT. Kept to viewport height (not 120vh like the
-                other sections) so the page's scroll range ends right as the camera
-                settles on the mailpost, instead of leaving dead space to scroll through. */}
+            {/* CONTACT — Text FAR LEFT, anchored to the bottom of the viewport
+                so it lands at the bottom-left of the page once you've scrolled
+                all the way down, instead of sitting vertically centered. Kept to
+                viewport height (not 120vh like the other sections) so the page's
+                scroll range ends right as the camera settles on the mailpost,
+                instead of leaving dead space to scroll through. */}
             <section className="h-screen relative pointer-events-none">
-                <div className="absolute top-1/2 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
+                <div className="absolute bottom-14 md:bottom-20 left-8 md:left-20 pointer-events-auto">
                     <ContactContent />
                 </div>
             </section>

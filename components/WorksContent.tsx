@@ -20,9 +20,17 @@ const basePath = process.env.NODE_ENV === 'production' ? '/3droomportfolio' : ''
 
 const projects: Project[] = [
   {
+    title: '3D Room Portfolio',
+    description:
+      'This site, an interactive 3D bedroom scene that pans and zooms as you scroll, built with Next.js, Framer Motion, and a Spline 3D scene.',
+    tags: ['Next.js', 'TypeScript', 'Framer Motion', '3D / Spline'],
+    repo: 'https://github.com/malakelsadek/3droomportfolio',
+    image: '/thumbnails/3d-room-portfolio.png',
+  },
+  {
     title: 'Bank Dashboard',
     description:
-      'Built during a data science internship at Banque Misr — ran the full pipeline from raw customer data to a bank-wide analytics dashboard, plus an AI chatbot for querying portfolio insights.',
+      'Built during a data science internship at Banque Misr. Ran the full pipeline from raw customer data to a bank-wide analytics dashboard, plus an AI chatbot for querying portfolio insights.',
     tags: ['Data Science', 'Python', 'Dashboard', 'Chatbot'],
     repo: 'https://github.com/malakelsadek/bank-dashboard',
     image: '/thumbnails/bank-dashboard.png',
