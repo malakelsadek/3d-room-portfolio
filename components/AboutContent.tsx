@@ -26,7 +26,7 @@ export default function AboutContent() {
       initial={{ opacity: 0, x: -80 }}
       animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -80 }}
       transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
-      className="text-white"
+      className="text-white bg-purple-950/50 backdrop-blur-md rounded-2xl px-5 py-5 -mx-5 sm:mx-0 sm:bg-transparent sm:backdrop-blur-none sm:rounded-none sm:px-0 sm:py-0"
     >
       <h2 className="text-lg uppercase tracking-[0.3em] text-purple-300 mb-4">
         About Me

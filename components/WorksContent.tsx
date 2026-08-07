@@ -11,6 +11,7 @@ type Project = {
   tags: string[];
   repo: string;
   image?: string;
+  youtube?: string;
   hidden?: boolean;
 };
 
@@ -34,6 +35,24 @@ const projects: Project[] = [
     tags: ['Data Science', 'Python', 'Dashboard', 'Chatbot'],
     repo: 'https://github.com/malakelsadek/bank-dashboard',
     image: '/thumbnails/bank-dashboard.png',
+  },
+  {
+    title: 'Jackaroo',
+    description:
+      'A desktop implementation of the popular board game Jackaroo, built natively in Java using the JavaFX graphics framework — with bundled card, marble, and player-icon art plus sound effects for every game event.',
+    tags: ['Java', 'JavaFX', 'Maven', 'Desktop'],
+    repo: 'https://github.com/malakelsadek/jackaroo',
+    image: '/thumbnails/jackaroo.png',
+    youtube: 'https://www.youtube.com/watch?v=hSDmtQ0woH0',
+  },
+  {
+    title: 'The Fall',
+    description:
+      'A surreal, narrative-driven Unity horror game about guilt and memory loops — solve environmental puzzles to escape a haunting confession. Built in collaboration with university teammates.',
+    tags: ['Unity', 'C#', 'Horror', 'Narrative'],
+    repo: 'https://github.com/malakelsadek/the-fall',
+    image: '/thumbnails/the-fall.png',
+    youtube: 'https://www.youtube.com/watch?v=fzBn_pm4STQ',
   },
   {
     title: 'Project Two',
@@ -200,19 +219,34 @@ export default function WorksContent() {
                     ))}
                   </div>
 
-                  {activeProject.repo && (
-                    <a
-                      href={activeProject.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 text-purple-100 hover:text-white rounded-full px-5 py-2.5 text-sm transition-all group"
-                    >
-                      View on GitHub
-                      <span className="group-hover:translate-x-1 transition-transform">
-                        →
-                      </span>
-                    </a>
-                  )}
+                  <div className="flex gap-3 flex-wrap">
+                    {activeProject.repo && (
+                      <a
+                        href={activeProject.repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 text-purple-100 hover:text-white rounded-full px-5 py-2.5 text-sm transition-all group"
+                      >
+                        View on GitHub
+                        <span className="group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
+                      </a>
+                    )}
+                    {activeProject.youtube && (
+                      <a
+                        href={activeProject.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 text-purple-100 hover:text-white rounded-full px-5 py-2.5 text-sm transition-all group"
+                      >
+                        Watch Demo
+                        <span className="group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
+                      </a>
+                    )}
+                  </div>
                 </motion.div>
               </motion.div>
             )}

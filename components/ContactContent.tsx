@@ -32,23 +32,23 @@ export default function ContactContent() {
       initial={{ opacity: 0, x: -80 }}
       animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -80 }}
       transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
-      className="text-white"
+      className="text-white bg-purple-950/50 backdrop-blur-md rounded-2xl px-5 py-3 -mx-5 sm:mx-0 sm:bg-transparent sm:backdrop-blur-none sm:rounded-none sm:px-0 sm:py-0"
     >
-      <h2 className="text-lg uppercase tracking-[0.3em] text-purple-300 mb-4">
+      <h2 className="hidden sm:block text-lg uppercase tracking-[0.3em] text-purple-300 mb-4">
         Contact
       </h2>
-      <h3 className="text-4xl md:text-5xl font-bold mb-6">
+      <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-6">
         Let's Talk
       </h3>
-      <p className="text-purple-100/90 leading-relaxed mb-8 max-w-md">
+      <p className="text-purple-100/90 leading-relaxed text-sm sm:text-base mb-3 sm:mb-8 max-w-md">
         Eager to connect?
         Send me a message and let's talk.
       </p>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1.5 sm:gap-4">
         {[
           {
-            icon: <span className="text-lg">✉</span>,
+            icon: <span className="text-base sm:text-lg">✉</span>,
             label: 'elsadek.malak@gmail.com',
             href: 'mailto:elsadek.malak@gmail.com',
           },
@@ -70,8 +70,8 @@ export default function ContactContent() {
             rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
             className="flex items-center gap-3 text-purple-200 hover:text-white transition-colors group"
           >
-            <span className="flex w-5 justify-center">{link.icon}</span>
-            <span className="text-lg group-hover:translate-x-1 transition-transform">
+            <span className="flex w-5 justify-center shrink-0 [&_svg]:w-4 [&_svg]:h-4 sm:[&_svg]:w-5 sm:[&_svg]:h-5">{link.icon}</span>
+            <span className="text-sm sm:text-lg group-hover:translate-x-1 transition-transform">
               {link.label}
             </span>
           </a>

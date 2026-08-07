@@ -143,12 +143,12 @@ export default function ScrollingPortfolio() {
         <div className="relative z-10 pointer-events-none">
         
             {/* HERO */}
-            <section className="h-screen relative pointer-events-none">
+            <section className="h-dvh relative pointer-events-none">
                 <HeroContent />
             </section>
 
             {/* ABOUT — Text pinned to FAR LEFT like Hero's "Welcome" */}
-            <section className="h-[120vh] relative pointer-events-none">
+            <section className="h-[120dvh] relative pointer-events-none">
             {/* Remove the max-w-7xl container — use absolute positioning instead */}
                 <div className="absolute inset-0 pointer-events-none">
                     <div className="absolute top-1/3 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
@@ -160,7 +160,7 @@ export default function ScrollingPortfolio() {
             {/* WORKS — Text FAR RIGHT. Extra-tall section (200vh vs. the usual
                 120vh) so there's real breathing room before and after the
                 camera settles on the desk, instead of rushing straight through. */}
-            <section className="h-[200vh] relative pointer-events-none">
+            <section className="h-[200dvh] relative pointer-events-none">
                 <div className="absolute top-1/3 right-8 md:right-20 -translate-y-1/2 pointer-events-auto">
                     <WorksContent />
                 </div>
@@ -172,8 +172,8 @@ export default function ScrollingPortfolio() {
                 viewport height (not 120vh like the other sections) so the page's
                 scroll range ends right as the camera settles on the mailpost,
                 instead of leaving dead space to scroll through. */}
-            <section className="h-screen relative pointer-events-none">
-                <div className="absolute bottom-14 md:bottom-20 left-8 md:left-20 pointer-events-auto">
+            <section className="h-dvh relative pointer-events-none">
+                <div className="absolute bottom-4 sm:bottom-14 md:bottom-20 left-4 sm:left-8 md:left-20 right-4 sm:right-auto pointer-events-auto">
                     <ContactContent />
                 </div>
             </section>
