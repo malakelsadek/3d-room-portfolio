@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -9,16 +10,22 @@ type Project = {
   description: string;
   tags: string[];
   repo: string;
+  image?: string;
   hidden?: boolean;
 };
+
+// GitHub Pages serves this repo at /3droomportfolio/, and next/image
+// requires the basePath to be added to `src` manually (it isn't inferred).
+const basePath = process.env.NODE_ENV === 'production' ? '/3droomportfolio' : '';
 
 const projects: Project[] = [
   {
     title: 'Bank Dashboard',
     description:
-      'A banking dashboard for tracking accounts, transactions, and spending at a glance.',
-    tags: ['React', 'TypeScript', 'Dashboard'],
+      'Built during a data science internship at Banque Misr — ran the full pipeline from raw customer data to a bank-wide analytics dashboard, plus an AI chatbot for querying portfolio insights.',
+    tags: ['Data Science', 'Python', 'Dashboard', 'Chatbot'],
     repo: 'https://github.com/malakelsadek/bank-dashboard',
+    image: '/thumbnails/bank-dashboard.png',
   },
   {
     title: 'Project Two',
@@ -90,7 +97,17 @@ export default function WorksContent() {
             onClick={() => setActiveProject(project)}
             className="flex gap-4 bg-purple-950/50 border border-purple-400/20 rounded-xl p-5 backdrop-blur-md hover:border-purple-300/50 transition-all cursor-pointer group"
           >
-            <ProjectImagePlaceholder className="h-20 w-20 sm:h-24 sm:w-24" />
+            {project.image ? (
+              <Image
+                src={`${basePath}${project.image}`}
+                alt={`${project.title} preview`}
+                width={96}
+                height={96}
+                className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-lg border border-purple-400/20 object-cover"
+              />
+            ) : (
+              <ProjectImagePlaceholder className="h-20 w-20 sm:h-24 sm:w-24" />
+            )}
             <div className="min-w-0 flex-1">
               <h4 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-200 transition-colors">
                 {project.title}
@@ -146,7 +163,17 @@ export default function WorksContent() {
                     &times;
                   </button>
 
-                  <ProjectImagePlaceholder className="mb-5 aspect-video w-full" />
+                  {activeProject.image ? (
+                    <Image
+                      src={`${basePath}${activeProject.image}`}
+                      alt={`${activeProject.title} preview`}
+                      width={800}
+                      height={450}
+                      className="mb-5 aspect-video w-full rounded-lg border border-purple-400/20 object-cover"
+                    />
+                  ) : (
+                    <ProjectImagePlaceholder className="mb-5 aspect-video w-full" />
+                  )}
 
                   <h4 className="text-2xl font-semibold text-white mb-3 pr-6">
                     {activeProject.title}
