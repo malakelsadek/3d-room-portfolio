@@ -55,11 +55,12 @@ const projects: Project[] = [
     youtube: 'https://www.youtube.com/watch?v=fzBn_pm4STQ',
   },
   {
-    title: 'Project Two',
-    description: 'A short description of what this project does and the tech used.',
-    tags: ['React', 'Next.js'],
-    repo: '',
-    hidden: true, // empty placeholder — flip to false once there's a real project here
+    title: 'StudyXP',
+    description:
+      'A gamified, pixel-art social study space. Move a character around a shared 2D room, run a synced study timer with the people around you, and keep each other accountable — all in the browser.',
+    tags: ['Multiplayer', 'Pixel Art', 'Real-time'],
+    repo: 'https://github.com/malakelsadek/studyxp',
+    image: '/thumbnails/studyxp.png',
   },
   {
     title: 'Project Three',
@@ -122,21 +123,21 @@ export default function WorksContent() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4 + i * 0.15, duration: 0.5 }}
             onClick={() => setActiveProject(project)}
-            className="flex gap-4 bg-purple-950/50 border border-purple-400/20 rounded-xl p-5 backdrop-blur-md hover:border-purple-300/50 transition-all cursor-pointer group"
+            className="flex gap-5 bg-purple-950/50 border border-purple-400/20 rounded-xl p-6 backdrop-blur-md hover:border-purple-300/50 transition-all cursor-pointer group"
           >
             {project.image ? (
               <Image
                 src={`${basePath}${project.image}`}
                 alt={`${project.title} preview`}
-                width={96}
-                height={96}
-                className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-lg border border-purple-400/20 object-cover"
+                width={128}
+                height={128}
+                className="h-24 w-24 sm:h-32 sm:w-32 shrink-0 rounded-lg border border-purple-400/20 object-cover"
               />
             ) : (
-              <ProjectImagePlaceholder className="h-20 w-20 sm:h-24 sm:w-24" />
+              <ProjectImagePlaceholder className="h-24 w-24 sm:h-32 sm:w-32" />
             )}
             <div className="min-w-0 flex-1">
-              <h4 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-200 transition-colors">
+              <h4 className="text-2xl font-semibold text-white mb-2 group-hover:text-purple-200 transition-colors">
                 {project.title}
               </h4>
               <p className="text-purple-200/80 text-sm mb-3">
