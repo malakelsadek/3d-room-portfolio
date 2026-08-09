@@ -18,10 +18,25 @@ const Spline = dynamic(() => import('@splinetool/react-spline'), {
 
 const SCENE_URL = 'https://prod.spline.design/vEfWrRD-zL3z9TdR/scene.splinecode';
 
+// Below the `sm` breakpoint (640px) the room is framed differently — see
+// isMobile logic below.
+const MOBILE_BREAKPOINT = '(max-width: 639px)';
+
 export default function ScrollingPortfolio() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [sceneLoaded, setSceneLoaded] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const prefersReducedMotion = useReducedMotion();
+
+    // Desktop viewing is untouched by this — it only swaps which keyframe
+    // array feeds the camera transforms below.
+    useEffect(() => {
+        const mq = window.matchMedia(MOBILE_BREAKPOINT);
+        const update = () => setIsMobile(mq.matches);
+        update();
+        mq.addEventListener('change', update);
+        return () => mq.removeEventListener('change', update);
+    }, []);
 
     // Inertial smooth scrolling for the whole page — Lenis wraps native
     // scroll (not a virtual/transform scroller), so Framer Motion's
@@ -74,22 +89,44 @@ export default function ScrollingPortfolio() {
   // [77-83%] Contact: fast pan/zoom to the mailpost, framed toward the top
   // [83-100%] Hold on the mailpost — no zoom back out to the full room
 
+    const CAMERA_INPUT = [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1];
+    const SCALE_DESKTOP = [1.2, 1.2, 2, 2, 2, 2, 2.2, 2.2];
+    const X_DESKTOP = ['0%', '0%', '35%', '35%', '-35%', '-35%', '15%', '15%'];
+    const Y_DESKTOP = ['0%', '0%', '-5%', '-5%', '-3%', '-3%', '-55%', '-55%'];
+
+    // The Spline scene's camera is composed for a wide desktop aspect ratio;
+    // on a narrow portrait viewport its native framing already crops the
+    // sides. Scaling below 100% reveals more of the room but leaves visible
+    // dead space (the page background) where the canvas no longer reaches —
+    // that trade-off isn't fixable from CSS, only from the camera itself
+    // inside Spline's own editor. So mobile stays at/near the scene's native
+    // 100% fill (no dead space) and only zooms in modestly for each hold,
+    // instead of the desktop's much heavier 1.2–2.2 zoom range.
+    // A pan offset needs zoom headroom to cover — panning by f% of the
+    // viewport without exposing the background edge roughly needs
+    // scale >= 1 + 2f. 1.15 wasn't enough for an 18% pan, which is why the
+    // background peeked through on the left (About) and right (Works)
+    // edges for the entire hold, not just the transition.
+    const SCALE_MOBILE = [1, 1, 1.4, 1.4, 1.4, 1.4, 1.4, 1.4];
+    const X_MOBILE = ['0%', '0%', '12%', '12%', '-12%', '-12%', '8%', '8%'];
+    const Y_MOBILE = ['0%', '0%', '-3%', '-3%', '-2%', '-2%', '-20%', '-20%'];
+
     const scale = useTransform(
     smoothProgress,
-    [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1],
-    [1.2, 1.2, 2, 2, 2, 2, 2.2, 2.2]
+    CAMERA_INPUT,
+    isMobile ? SCALE_MOBILE : SCALE_DESKTOP
     );
 
     const x = useTransform(
     smoothProgress,
-    [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1],
-    ['0%', '0%', '35%', '35%', '-35%', '-35%', '15%', '15%']
+    CAMERA_INPUT,
+    isMobile ? X_MOBILE : X_DESKTOP
     );
 
     const y = useTransform(
     smoothProgress,
-    [0, 0.135, 0.231, 0.365, 0.462, 0.769, 0.827, 1],
-    ['0%', '0%', '-5%', '-5%', '-3%', '-3%', '-55%', '-55%']
+    CAMERA_INPUT,
+    isMobile ? Y_MOBILE : Y_DESKTOP
     );
 
     const brightness = useTransform(
@@ -151,7 +188,7 @@ export default function ScrollingPortfolio() {
             <section className="h-[120dvh] relative pointer-events-none">
             {/* Remove the max-w-7xl container — use absolute positioning instead */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-1/3 left-8 md:left-20 -translate-y-1/2 pointer-events-auto">
+                    <div className="absolute top-1/3 left-4 right-4 sm:left-8 sm:right-auto md:left-20 -translate-y-1/2 pointer-events-auto">
                         <AboutContent />
                     </div>
                 </div>
@@ -161,7 +198,7 @@ export default function ScrollingPortfolio() {
                 120vh) so there's real breathing room before and after the
                 camera settles on the desk, instead of rushing straight through. */}
             <section className="h-[200dvh] relative pointer-events-none">
-                <div className="absolute top-1/3 right-8 md:right-20 -translate-y-1/2 pointer-events-auto">
+                <div className="absolute top-1/3 left-4 right-4 sm:left-auto sm:right-8 md:right-20 -translate-y-1/2 pointer-events-auto">
                     <WorksContent />
                 </div>
             </section>
