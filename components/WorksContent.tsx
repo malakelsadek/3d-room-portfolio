@@ -15,9 +15,9 @@ type Project = {
   hidden?: boolean;
 };
 
-// GitHub Pages serves this repo at /3droomportfolio/, and next/image
+// GitHub Pages serves this repo at /3d-room-portfolio/, and next/image
 // requires the basePath to be added to `src` manually (it isn't inferred).
-const basePath = process.env.NODE_ENV === 'production' ? '/3droomportfolio' : '';
+const basePath = process.env.NODE_ENV === 'production' ? '/3d-room-portfolio' : '';
 
 const projects: Project[] = [
   {
@@ -25,7 +25,7 @@ const projects: Project[] = [
     description:
       'This site, an interactive 3D bedroom scene that pans and zooms as you scroll, built with Next.js, Framer Motion, and a Spline 3D scene.',
     tags: ['Next.js', 'TypeScript', 'Framer Motion', '3D / Spline'],
-    repo: 'https://github.com/malakelsadek/3droomportfolio',
+    repo: 'https://github.com/malakelsadek/3d-room-portfolio',
     image: '/thumbnails/3d-room-portfolio.png',
   },
   {
