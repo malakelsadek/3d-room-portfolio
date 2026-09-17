@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
-// GitHub Pages serves this repo at /3droomportfolio/, so production
+// GitHub Pages serves this repo at /3d-room-portfolio/, so production
 // builds need the basePath — but keep it off for `next dev` so local
 // dev still works at the site root.
-const repoName = "3droomportfolio";
+const repoName = "3d-room-portfolio";
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
