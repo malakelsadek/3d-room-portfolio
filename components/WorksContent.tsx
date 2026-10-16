@@ -12,6 +12,7 @@ type Project = {
   repo: string;
   image?: string;
   youtube?: string;
+  live?: string;
   hidden?: boolean;
 };
 
@@ -61,6 +62,15 @@ const projects: Project[] = [
     tags: ['Multiplayer', 'Pixel Art', 'Real-time'],
     repo: 'https://github.com/malakelsadek/studyxp',
     image: '/thumbnails/studyxp.png',
+  },
+  {
+    title: 'Ankidote',
+    description:
+      'Built for my sister, a medical student: turns lecture slides into exam-style multiple-choice questions, then uses spaced repetition so the hard ones keep coming back.',
+    tags: ['JavaScript', 'Spaced Repetition', 'Local-first', 'AI-assisted'],
+    repo: 'https://github.com/malakelsadek/ankidote',
+    image: '/thumbnails/ankidote.png',
+    live: 'https://malakelsadek.github.io/ankidote/',
   },
   {
     title: 'Project Three',
@@ -181,46 +191,54 @@ export default function WorksContent() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.85, y: 20 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="relative z-10 w-full max-w-md bg-purple-950/90 border border-purple-400/30 rounded-2xl p-8 backdrop-blur-xl shadow-2xl shadow-purple-900/50"
+                  className="relative z-10 w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-purple-950/90 border border-purple-400/30 rounded-3xl p-6 md:p-8 backdrop-blur-xl shadow-2xl shadow-purple-900/50"
                 >
                   <button
                     onClick={() => setActiveProject(null)}
                     aria-label="Close"
-                    className="absolute top-4 right-4 z-10 rounded-full bg-purple-950/60 p-1.5 text-purple-300 hover:text-white transition-colors text-xl leading-none cursor-pointer"
+                    className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-purple-950/70 border border-purple-400/20 text-purple-300 hover:text-white hover:border-purple-300/50 transition-colors text-xl leading-none cursor-pointer"
                   >
                     &times;
                   </button>
 
+                  <div className="grid md:grid-cols-5 gap-6 md:gap-8 md:items-center">
+                  <div className="md:col-span-3">
                   {activeProject.image ? (
                     <Image
                       src={`${basePath}${activeProject.image}`}
                       alt={`${activeProject.title} preview`}
-                      width={800}
-                      height={450}
-                      className="mb-5 aspect-video w-full rounded-lg border border-purple-400/20 object-cover"
+                      width={1200}
+                      height={675}
+                      className="aspect-video w-full rounded-2xl border border-purple-400/20 object-cover shadow-lg shadow-black/40"
                     />
                   ) : (
-                    <ProjectImagePlaceholder className="mb-5 aspect-video w-full" />
+                    <ProjectImagePlaceholder className="aspect-video w-full" />
                   )}
+                  </div>
 
-                  <h4 className="text-2xl font-semibold text-white mb-3 pr-6">
+                  <div className="md:col-span-2 min-w-0">
+                  <h4 className="text-2xl md:text-3xl font-bold text-white mb-3 pr-10 md:pr-0">
                     {activeProject.title}
                   </h4>
                   <p className="text-purple-100/90 leading-relaxed mb-5">
                     {activeProject.description}
                   </p>
-                  <div className="flex gap-2 flex-wrap mb-7">
+
+                  <p className="text-xs uppercase tracking-[0.25em] text-purple-300/70 mb-3">
+                    Built with
+                  </p>
+                  <div className="flex gap-2 flex-wrap mb-6">
                     {activeProject.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs px-2 py-1 rounded-full bg-purple-400/10 text-purple-300"
+                        className="text-sm px-3 py-1.5 rounded-full bg-purple-400/10 border border-purple-400/20 text-purple-200"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex gap-3 flex-wrap">
+                  <div className="flex gap-3 flex-wrap border-t border-purple-400/20 pt-6">
                     {activeProject.repo && (
                       <a
                         href={activeProject.repo}
@@ -229,6 +247,19 @@ export default function WorksContent() {
                         className="inline-flex items-center gap-2 bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 text-purple-100 hover:text-white rounded-full px-5 py-2.5 text-sm transition-all group"
                       >
                         View on GitHub
+                        <span className="group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
+                      </a>
+                    )}
+                    {activeProject.live && (
+                      <a
+                        href={activeProject.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-purple-400/10 hover:bg-purple-400/20 border border-purple-400/30 text-purple-100 hover:text-white rounded-full px-5 py-2.5 text-sm transition-all group"
+                      >
+                        Live Demo
                         <span className="group-hover:translate-x-1 transition-transform">
                           →
                         </span>
@@ -247,6 +278,8 @@ export default function WorksContent() {
                         </span>
                       </a>
                     )}
+                  </div>
+                  </div>
                   </div>
                 </motion.div>
               </motion.div>
